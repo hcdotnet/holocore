@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.HoloCore.Framework", "Tomat.HoloCore.Framework\Tomat.HoloCore.Framework.csproj", "{D7BE4EB5-381C-480B-994C-5E96D4542039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.HoloCore.Game", "Tomat.HoloCore.Game\Tomat.HoloCore.Game.csproj", "{BB61CC3B-5A4D-4CAD-91AF-97FE6AE0FCCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tomat.HoloCore.Game.Desktop", "Tomat.HoloCore.Game.Desktop\Tomat.HoloCore.Game.Desktop.csproj", "{315DA53F-602E-43C0-9EA5-3F08BE25918F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7BE4EB5-381C-480B-994C-5E96D4542039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7BE4EB5-381C-480B-994C-5E96D4542039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7BE4EB5-381C-480B-994C-5E96D4542039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7BE4EB5-381C-480B-994C-5E96D4542039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB61CC3B-5A4D-4CAD-91AF-97FE6AE0FCCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB61CC3B-5A4D-4CAD-91AF-97FE6AE0FCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB61CC3B-5A4D-4CAD-91AF-97FE6AE0FCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB61CC3B-5A4D-4CAD-91AF-97FE6AE0FCCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315DA53F-602E-43C0-9EA5-3F08BE25918F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315DA53F-602E-43C0-9EA5-3F08BE25918F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315DA53F-602E-43C0-9EA5-3F08BE25918F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315DA53F-602E-43C0-9EA5-3F08BE25918F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

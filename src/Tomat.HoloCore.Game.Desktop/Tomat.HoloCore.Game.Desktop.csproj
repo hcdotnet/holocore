@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <AssemblyName>HoloCore</AssemblyName>
+        <RootNamespace>Tomat.HoloCore.Game.Desktop</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Tomat.HoloCore.Game\Tomat.HoloCore.Game.csproj"/>
+    </ItemGroup>
+
+</Project>
