@@ -36,7 +36,6 @@ public abstract class Game {
         // TODO: Use threads instead...
 
         while (true) {
-            // update windows and check if they've exited, remove if so
             for (var i = 0; i < windows.Count; i++) {
                 var window = windows[i];
                 window.Update();

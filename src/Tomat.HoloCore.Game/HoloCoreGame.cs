@@ -58,21 +58,23 @@ void main()
         if (Dependencies is null)
             throw new InvalidOperationException("Attempted to initialize game before dependencies were registered.");
 
-        var windowInfo = new WindowCreationInfo {
-            X = 100,
-            Y = 100,
-            Width = 960,
-            Height = 540,
-            Title = "Test",
-        };
-        var gdOptions = new GraphicsDeviceOptions {
-            PreferStandardClipSpaceYDirection = true,
-            PreferDepthRangeZeroToOne = true,
-        };
-        var window = CreateWindow(windowInfo, gdOptions);
-        window.OnInitialize += WindowInitialize;
-        window.OnUpdate += WindowDraw;
-        window.OnExit += WindowExit;
+        for (var i = 0; i < 10; i++) {
+            var windowInfo = new WindowCreationInfo {
+                X = 100 + (i * 150),
+                Y = 100 + (i * 10),
+                Width = 960,
+                Height = 540,
+                Title = $"Test #{i}",
+            };
+            var gdOptions = new GraphicsDeviceOptions {
+                PreferStandardClipSpaceYDirection = true,
+                PreferDepthRangeZeroToOne = true,
+            };
+            var window = CreateWindow(windowInfo, gdOptions);
+            window.OnInitialize += WindowInitialize;
+            window.OnUpdate += WindowDraw;
+            window.OnExit += WindowExit;
+        }
     }
 
     private void WindowInitialize(GameWindow window) {
