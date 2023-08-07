@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Numerics;
 using System.Text;
+using Tomat.HoloCore.Framework.Platforms.SDL2;
+using Tomat.HoloCore.Framework.Windowing;
 using Veldrid;
 using Veldrid.SPIRV;
-using Veldrid.StartupUtilities;
 
 namespace Tomat.HoloCore.Game.Desktop;
 
@@ -47,20 +48,23 @@ void main()
 }".Trim();
 
     internal static void Main() {
-        var windowInfo = new WindowCreateInfo {
+        var windowProvider = new Sdl2WindowProvider();
+        var graphicsDeviceProvider = new Sdl2GraphicsDeviceProvider();
+
+        var windowInfo = new WindowCreationInfo {
             X = 100,
             Y = 100,
-            WindowWidth = 960,
-            WindowHeight =  540,
-            WindowTitle = "Test",
+            Width = 960,
+            Height =  540,
+            Title = "Test",
         };
-        var window = VeldridStartup.CreateWindow(ref windowInfo);
+        var window = windowProvider.CreateWindow(windowInfo);
 
         var gdOptions = new GraphicsDeviceOptions {
             PreferStandardClipSpaceYDirection = true,
             PreferDepthRangeZeroToOne = true,
         };
-        var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, gdOptions);
+        var graphicsDevice = graphicsDeviceProvider.CreateGraphicsDevice(window, gdOptions);
 
         var (pipeline, commandList, vertexBuffer, indexBuffer, shaders) = CreateResources(graphicsDevice);
 
