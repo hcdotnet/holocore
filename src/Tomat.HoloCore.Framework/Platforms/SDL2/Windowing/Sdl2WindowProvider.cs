@@ -1,9 +1,9 @@
 ﻿using System;
-using Tomat.HoloCore.Framework.Windowing;
+using Tomat.HoloCore.Framework.Platform.Windowing;
 using Veldrid;
 using Veldrid.Sdl2;
 
-namespace Tomat.HoloCore.Framework.Platforms.SDL2;
+namespace Tomat.HoloCore.Framework.Platforms.SDL2.Windowing;
 
 public class Sdl2WindowProvider : IWindowProvider {
     public IWindow CreateWindow(WindowCreationInfo creationInfo) {

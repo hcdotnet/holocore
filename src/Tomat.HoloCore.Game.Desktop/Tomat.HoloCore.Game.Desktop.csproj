@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tomat.HoloCore.Game\Tomat.HoloCore.Game.csproj"/>
+        <ProjectReference Include="..\Tomat.HoloCore.Game\Tomat.HoloCore.Game.csproj" />
     </ItemGroup>
 
 </Project>

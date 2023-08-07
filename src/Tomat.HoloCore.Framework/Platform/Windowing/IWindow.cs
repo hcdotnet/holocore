@@ -1,6 +1,6 @@
 ﻿using Veldrid;
 
-namespace Tomat.HoloCore.Framework.Windowing;
+namespace Tomat.HoloCore.Framework.Platform.Windowing;
 
 public interface IWindow {
     int X { get; set; }

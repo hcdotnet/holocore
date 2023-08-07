@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ppy.Veldrid" Version="4.9.3-gf4e09bb395"/>
-        <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gc5e8498253"/>
-        <PackageReference Include="Veldrid.SDL2" Version="4.9.0"/>
+        <PackageReference Include="ppy.Veldrid" Version="4.9.3-gf4e09bb395" />
+        <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gc5e8498253" />
+        <PackageReference Include="Veldrid.SDL2" Version="4.9.0" />
     </ItemGroup>
 
 </Project>
