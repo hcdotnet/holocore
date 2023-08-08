@@ -35,7 +35,7 @@ public abstract class Game {
     public virtual void Run() {
         // TODO: Use threads instead...
 
-        while (true) {
+        while (windows.Count > 0) {
             for (var i = 0; i < windows.Count; i++) {
                 var window = windows[i];
                 window.Update();
