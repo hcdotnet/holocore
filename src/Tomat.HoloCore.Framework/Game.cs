@@ -10,7 +10,6 @@ using IServiceProvider = Tomat.HoloCore.Framework.DependencyInjection.IServicePr
 namespace Tomat.HoloCore.Framework;
 
 public abstract class Game {
-    private List<GameWindow> windows = new();
     private IGameHost? host;
     protected bool hasHostBeenSet;
 
@@ -28,6 +27,8 @@ public abstract class Game {
 
     public IReadonlyServiceProvider? Dependencies { get; private set; }
 
+    protected virtual List<GameWindow> Windows { get; set; } = new();
+
     private IServiceProvider serviceProvider = null!;
 
     public virtual void Initialize() { }
@@ -35,14 +36,14 @@ public abstract class Game {
     public virtual void Run() {
         // TODO: Use threads instead...
 
-        while (windows.Count > 0) {
-            for (var i = 0; i < windows.Count; i++) {
-                var window = windows[i];
+        while (Windows.Count > 0) {
+            for (var i = 0; i < Windows.Count; i++) {
+                var window = Windows[i];
                 window.Update();
 
                 if (!window.Window.Exists) {
                     window.Dispose();
-                    windows.RemoveAt(i);
+                    Windows.RemoveAt(i);
                     i--;
                 }
             }
@@ -64,7 +65,7 @@ public abstract class Game {
             GraphicsDevice = graphicsDevice,
         };
 
-        windows.Add(gameWindow);
+        Windows.Add(gameWindow);
         return gameWindow;
     }
 
