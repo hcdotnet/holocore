@@ -53,13 +53,16 @@ public abstract class Game {
         Dependencies = CreateServiceProvider(parentServiceProvider);
     }
 
-    protected virtual GameWindow CreateWindow(WindowCreationInfo windowCreationInfo, GraphicsDeviceOptions graphicsDeviceOptions, GraphicsBackend? preferredBackend = null) {
+    protected virtual T CreateWindow<T>(WindowCreationInfo windowCreationInfo, GraphicsDeviceOptions graphicsDeviceOptions, GraphicsBackend? preferredBackend = null) where T : GameWindow, new() {
         if (Dependencies is null)
             throw new InvalidOperationException("Attempted to create window before dependencies were registered.");
 
         var window = serviceProvider.ExpectService<IWindowProvider>().CreateWindow(windowCreationInfo);
         var graphicsDevice = Dependencies.ExpectService<IGraphicsDeviceProvider>().CreateGraphicsDevice(window, graphicsDeviceOptions, preferredBackend);
-        var gameWindow = new GameWindow(window, graphicsDevice);
+        var gameWindow = new T {
+            Window = window,
+            GraphicsDevice = graphicsDevice,
+        };
 
         windows.Add(gameWindow);
         return gameWindow;
