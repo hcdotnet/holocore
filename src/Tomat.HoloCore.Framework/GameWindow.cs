@@ -11,7 +11,7 @@ public class GameWindow : IDisposable {
 
     public GraphicsDevice GraphicsDevice { get; init; } = null!;
 
-    public IServiceProvider ServiceProvider { get; } = new DefaultServiceProvider();
+    public IServiceProvider ServiceProvider { get; } = new ServiceProvider();
 
     public event Action<GameWindow>? OnInitialize;
 

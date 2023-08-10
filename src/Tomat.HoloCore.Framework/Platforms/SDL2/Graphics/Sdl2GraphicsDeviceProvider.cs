@@ -13,11 +13,11 @@ using Sdl2Window = Tomat.HoloCore.Framework.Platforms.SDL2.Windowing.Sdl2Window;
 namespace Tomat.HoloCore.Framework.Platforms.SDL2.Graphics;
 
 public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
-    private static readonly (int, int)[] gl_test_versions = new[] { (4, 6), (4, 3), (4, 0), (3, 3), (3, 0) };
-    private static readonly (int, int)[] gles_test_versions = new[] { (3, 2), (3, 0) };
+    private static readonly (int, int)[] gl_test_versions = { (4, 6), (4, 3), (4, 0), (3, 3), (3, 0) };
+    private static readonly (int, int)[] gles_test_versions = { (3, 2), (3, 0) };
     private static readonly object gl_version_lock = new();
-    private static (int major, int minor)? gl_version;
-    private static (int major, int minor)? gles_version;
+    private static (int major, int minor)? glVersion;
+    private static (int major, int minor)? glesVersion;
 
     public GraphicsDevice CreateGraphicsDevice(IWindow window, GraphicsDeviceOptions options, GraphicsBackend? preferredBackend = null) {
         if (window is not Sdl2Window sdl2Window)
@@ -224,21 +224,21 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
 
     private static void GetMaxGlVersion(bool es, out int major, out int minor) {
         lock (gl_version_lock) {
-            if (es && gles_version.HasValue) {
-                major = gles_version.Value.major;
-                minor = gles_version.Value.minor;
+            if (es && glesVersion.HasValue) {
+                major = glesVersion.Value.major;
+                minor = glesVersion.Value.minor;
             }
-            else if (!es && gl_version.HasValue) {
-                major = gl_version.Value.major;
-                minor = gl_version.Value.minor;
+            else if (!es && glVersion.HasValue) {
+                major = glVersion.Value.major;
+                minor = glVersion.Value.minor;
             }
             else {
                 TestMaxGlVersion(es, out major, out minor);
 
                 if (es)
-                    gles_version = (major, minor);
+                    glesVersion = (major, minor);
                 else
-                    gl_version = (major, minor);
+                    glVersion = (major, minor);
             }
         }
     }

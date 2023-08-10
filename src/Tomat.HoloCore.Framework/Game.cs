@@ -25,7 +25,7 @@ public abstract class Game {
         }
     }
 
-    public IReadonlyServiceProvider? Dependencies { get; private set; }
+    public IServiceProvider? Dependencies { get; private set; }
 
     protected virtual List<GameWindow> Windows { get; set; } = new();
 
@@ -50,7 +50,7 @@ public abstract class Game {
         }
     }
 
-    public virtual void RegisterDependencies(IReadonlyServiceProvider? parentServiceProvider) {
+    public virtual void RegisterDependencies(IServiceProvider? parentServiceProvider) {
         Dependencies = CreateServiceProvider(parentServiceProvider);
     }
 
@@ -69,7 +69,7 @@ public abstract class Game {
         return gameWindow;
     }
 
-    protected virtual IReadonlyServiceProvider CreateServiceProvider(IReadonlyServiceProvider? parentServiceProvider) {
-        return serviceProvider = new DefaultServiceProvider(parentServiceProvider);
+    protected virtual IServiceProvider CreateServiceProvider(IServiceProvider? parentServiceProvider) {
+        return serviceProvider = new ServiceProvider(parentServiceProvider);
     }
 }

@@ -15,7 +15,7 @@ public abstract class DesktopGameHost : IGameHost {
     public virtual void InstallGame(Game game) {
         game.Host = this;
 
-        var dependencies = new DefaultServiceProvider();
+        var dependencies = new ServiceProvider();
         dependencies.Register<IGameHost>(this);
         dependencies.Register(game);
 
