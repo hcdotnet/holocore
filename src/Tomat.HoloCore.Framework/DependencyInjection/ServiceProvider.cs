@@ -34,11 +34,7 @@ public class ServiceProvider : IServiceProvider {
         return result;
     }
 
-    public void RegisterAs(object instance, Type type) {
-        services[type] = instance;
-    }
-
-    public void RegisterAs<T>(T instance, Type type) where T : class {
+    public void Register(object instance, Type type) {
         services[type] = instance;
     }
 }

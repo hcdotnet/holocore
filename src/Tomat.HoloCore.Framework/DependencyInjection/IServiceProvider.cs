@@ -8,9 +8,9 @@ public interface IServiceProvider {
 
     bool TryGetService<T>([NotNullWhen(returnValue: true)] out T? service) where T : class;
 
-    void RegisterAs(object instance, Type type);
+    void Register(object instance, Type type);
 
-    void RegisterAs<T>(T instance, Type type) where T : class;
+    // void Register<T>(T instance, Type type) where T : class;
 }
 
 public static class ServiceProviderExtensions {
@@ -39,10 +39,10 @@ public static class ServiceProviderExtensions {
     }
 
     public static void Register(this IServiceProvider provider, object instance) {
-        provider.RegisterAs(instance, instance.GetType());
+        provider.Register(instance, instance.GetType());
     }
 
     public static void Register<T>(this IServiceProvider provider, T instance) where T : class {
-        provider.RegisterAs(instance, typeof(T));
+        provider.Register(instance, typeof(T));
     }
 }
