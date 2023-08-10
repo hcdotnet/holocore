@@ -45,6 +45,6 @@ public abstract class DesktopGameHost : IGameHost {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             return new LinuxGameHost();
 
-        throw new PlatformNotSupportedException("Unsupported platform, cannot create a game host.");
+        throw new PlatformNotSupportedException("Unsupported platform, cannot create a desktop game host.");
     }
 }

@@ -13,6 +13,14 @@ using Sdl2Window = Tomat.HoloCore.Framework.Platform.SDL2.Windowing.Sdl2Window;
 namespace Tomat.HoloCore.Framework.Platform.SDL2.Graphics;
 
 public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
+    private static readonly GraphicsBackend[] backend_selection_priority = {
+        GraphicsBackend.Direct3D11,    // Windows default
+        GraphicsBackend.Metal,         // macOS default
+        GraphicsBackend.Vulkan,        // Linux default,
+        GraphicsBackend.OpenGL,        // Fallback # 1
+        // GraphicsBackend.OpenGLES,   // Fallback # 2 - not necessary.
+    };
+
     private static readonly (int, int)[] gl_test_versions = { (4, 6), (4, 3), (4, 0), (3, 3), (3, 0) };
     private static readonly (int, int)[] gles_test_versions = { (3, 2), (3, 0) };
     private static readonly object gl_version_lock = new();
@@ -23,13 +31,15 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
         if (window is not Sdl2Window sdl2Window)
             throw new ArgumentException("Window must be an SDL2 window.", nameof(window));
 
-        var innerWindow = sdl2Window.innerWindow;
-
         preferredBackend ??= GetPlatformDefaultBackend();
+        var innerWindow = sdl2Window.InnerWindow;
 
         switch (preferredBackend.Value) {
             case GraphicsBackend.Direct3D11:
                 return CreateD3D11GraphicsDevice(options, innerWindow);
+
+            case GraphicsBackend.Metal:
+                return CreateMetalGraphicsDevice(options, innerWindow);
 
             case GraphicsBackend.Vulkan:
                 return CreateVulkanGraphicsDevice(options, innerWindow);
@@ -38,22 +48,18 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
             case GraphicsBackend.OpenGLES:
                 return CreateOpenGlGraphicsDevice(options, innerWindow, preferredBackend.Value);
 
-            case GraphicsBackend.Metal:
-                return CreateMetalGraphicsDevice(options, innerWindow);
-
             default:
                 throw new ArgumentOutOfRangeException(nameof(preferredBackend), preferredBackend, null);
         }
     }
 
     private static GraphicsBackend GetPlatformDefaultBackend() {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return GraphicsBackend.Direct3D11;
+        foreach (var backend in backend_selection_priority) {
+            if (GraphicsDevice.IsBackendSupported(backend))
+                return backend;
+        }
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            return GraphicsDevice.IsBackendSupported(GraphicsBackend.Metal) ? GraphicsBackend.Metal : GraphicsBackend.OpenGL;
-
-        return GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan) ? GraphicsBackend.Vulkan : GraphicsBackend.OpenGL;
+        throw new PlatformNotSupportedException("No supported graphics backend found.");
     }
 
     private static GraphicsDevice CreateD3D11GraphicsDevice(GraphicsDeviceOptions options, Veldrid.Sdl2.Sdl2Window window) {
@@ -70,20 +76,6 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
         return GraphicsDevice.CreateD3D11(options, description);
     }
 
-    private static GraphicsDevice CreateVulkanGraphicsDevice(GraphicsDeviceOptions options, Veldrid.Sdl2.Sdl2Window window, bool colorSrgb = false) {
-        var swapchain = GetSwapchainSource(window);
-        var description = new SwapchainDescription(
-            swapchain,
-            (uint)window.Width,
-            (uint)window.Height,
-            options.SwapchainDepthFormat,
-            options.SyncToVerticalBlank,
-            colorSrgb
-        );
-
-        return GraphicsDevice.CreateVulkan(options, description);
-    }
-
     private static GraphicsDevice CreateMetalGraphicsDevice(GraphicsDeviceOptions options, Veldrid.Sdl2.Sdl2Window window, bool? colorSrgb = null) {
         colorSrgb ??= options.SwapchainSrgbFormat;
 
@@ -98,6 +90,20 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
         );
 
         return GraphicsDevice.CreateMetal(options, description);
+    }
+
+    private static GraphicsDevice CreateVulkanGraphicsDevice(GraphicsDeviceOptions options, Veldrid.Sdl2.Sdl2Window window, bool colorSrgb = false) {
+        var swapchain = GetSwapchainSource(window);
+        var description = new SwapchainDescription(
+            swapchain,
+            (uint)window.Width,
+            (uint)window.Height,
+            options.SwapchainDepthFormat,
+            options.SyncToVerticalBlank,
+            colorSrgb
+        );
+
+        return GraphicsDevice.CreateVulkan(options, description);
     }
 
     private static unsafe GraphicsDevice CreateOpenGlGraphicsDevice(GraphicsDeviceOptions options, Veldrid.Sdl2.Sdl2Window window, GraphicsBackend backend) {
@@ -127,15 +133,31 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
 
         SDL_GL_SetSwapInterval(options.SyncToVerticalBlank ? 1 : 0);
 
+        void makeCurrent(nint context) {
+            SDL_GL_MakeCurrent(window.SdlWindowHandle, context);
+        }
+
+        void clearCurrentContext() {
+            SDL_GL_MakeCurrent(new SDL_Window(nint.Zero), nint.Zero);
+        }
+
+        void swapBuffers() {
+            SDL_GL_SwapWindow(window.SdlWindowHandle);
+        }
+
+        void setSyncToVerticalBlank(bool sync) {
+            SDL_GL_SetSwapInterval(sync ? 1 : 0);
+        }
+
         var platformInfo = new OpenGLPlatformInfo(
             contextHandle,
             SDL_GL_GetProcAddress,
-            context => SDL_GL_MakeCurrent(window.SdlWindowHandle, context),
+            makeCurrent,
             SDL_GL_GetCurrentContext,
-            () => SDL_GL_MakeCurrent(new SDL_Window(nint.Zero), nint.Zero),
+            clearCurrentContext,
             SDL_GL_DeleteContext,
-            () => SDL_GL_SwapWindow(window.SdlWindowHandle),
-            sync => SDL_GL_SetSwapInterval(sync ? 1 : 0)
+            swapBuffers,
+            setSyncToVerticalBlank
         );
 
         return GraphicsDevice.CreateOpenGL(options, platformInfo, (uint)window.Width, (uint)window.Height);
@@ -149,11 +171,7 @@ public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
 
         GetMaxGlVersion(backend == GraphicsBackend.OpenGLES, out var major, out var minor);
 
-        if (backend == GraphicsBackend.OpenGL)
-            SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)SDL_GLProfile.Core);
-        else
-            SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)SDL_GLProfile.ES);
-
+        SDL_GL_SetAttribute(SDL_GLAttribute.ContextProfileMask, (int)(backend == GraphicsBackend.OpenGL ? SDL_GLProfile.Core : SDL_GLProfile.ES));
         SDL_GL_SetAttribute(SDL_GLAttribute.ContextMajorVersion, major);
         SDL_GL_SetAttribute(SDL_GLAttribute.ContextMinorVersion, minor);
 

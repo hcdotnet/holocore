@@ -5,44 +5,44 @@ namespace Tomat.HoloCore.Framework.Platform.SDL2.Windowing;
 
 public class Sdl2Window : IWindow {
     public int X {
-        get => innerWindow.X;
-        set => innerWindow.X = value;
+        get => InnerWindow.X;
+        set => InnerWindow.X = value;
     }
 
     public int Y {
-        get => innerWindow.Y;
-        set => innerWindow.Y = value;
+        get => InnerWindow.Y;
+        set => InnerWindow.Y = value;
     }
 
     public int Width {
-        get => innerWindow.Width;
-        set => innerWindow.Width = value;
+        get => InnerWindow.Width;
+        set => InnerWindow.Width = value;
     }
 
     public int Height {
-        get => innerWindow.Height;
-        set => innerWindow.Height = value;
+        get => InnerWindow.Height;
+        set => InnerWindow.Height = value;
     }
 
     public string Title {
-        get => innerWindow.Title;
-        set => innerWindow.Title = value;
+        get => InnerWindow.Title;
+        set => InnerWindow.Title = value;
     }
 
     public WindowState State {
-        get => innerWindow.WindowState;
-        set => innerWindow.WindowState = value;
+        get => InnerWindow.WindowState;
+        set => InnerWindow.WindowState = value;
     }
 
-    public bool Exists => innerWindow.Exists;
+    public bool Exists => InnerWindow.Exists;
 
     public void PumpEvents() {
-        innerWindow.PumpEvents();
+        InnerWindow.PumpEvents();
     }
 
-    internal readonly Veldrid.Sdl2.Sdl2Window innerWindow;
+    internal Veldrid.Sdl2.Sdl2Window InnerWindow { get; }
 
     public Sdl2Window(Veldrid.Sdl2.Sdl2Window innerWindow) {
-        this.innerWindow = innerWindow;
+        this.InnerWindow = innerWindow;
     }
 }
