@@ -2,15 +2,15 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using Tomat.HoloCore.Framework.Platform.Graphics;
-using Tomat.HoloCore.Framework.Platform.Windowing;
+using Tomat.HoloCore.Framework.Platform.API.Graphics;
+using Tomat.HoloCore.Framework.Platform.API.Windowing;
 using Veldrid;
 using Veldrid.OpenGL;
 using Veldrid.Sdl2;
 using static Veldrid.Sdl2.Sdl2Native;
-using Sdl2Window = Tomat.HoloCore.Framework.Platforms.SDL2.Windowing.Sdl2Window;
+using Sdl2Window = Tomat.HoloCore.Framework.Platform.SDL2.Windowing.Sdl2Window;
 
-namespace Tomat.HoloCore.Framework.Platforms.SDL2.Graphics;
+namespace Tomat.HoloCore.Framework.Platform.SDL2.Graphics;
 
 public class Sdl2GraphicsDeviceProvider : IGraphicsDeviceProvider {
     private static readonly (int, int)[] gl_test_versions = { (4, 6), (4, 3), (4, 0), (3, 3), (3, 0) };

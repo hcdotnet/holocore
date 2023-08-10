@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tomat.HoloCore.Framework;
-using Tomat.HoloCore.Framework.Platform.Windowing;
+using Tomat.HoloCore.Framework.Platform.API.Windowing;
 using Veldrid;
 
 namespace Tomat.HoloCore.Game;

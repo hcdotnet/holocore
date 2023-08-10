@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Tomat.HoloCore.Framework.DependencyInjection;
 using Tomat.HoloCore.Framework.Platform;
-using Tomat.HoloCore.Framework.Platform.Graphics;
-using Tomat.HoloCore.Framework.Platform.Windowing;
+using Tomat.HoloCore.Framework.Platform.API;
+using Tomat.HoloCore.Framework.Platform.API.Graphics;
+using Tomat.HoloCore.Framework.Platform.API.Windowing;
 using Veldrid;
 using IServiceProvider = Tomat.HoloCore.Framework.DependencyInjection.IServiceProvider;
 

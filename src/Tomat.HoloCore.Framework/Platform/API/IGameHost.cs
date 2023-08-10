@@ -1,4 +1,4 @@
-﻿namespace Tomat.HoloCore.Framework.Platform;
+﻿namespace Tomat.HoloCore.Framework.Platform.API;
 
 public interface IGameHost {
     void InstallGame(Game game);

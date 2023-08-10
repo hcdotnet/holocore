@@ -1,6 +1,6 @@
 ﻿using Veldrid;
 
-namespace Tomat.HoloCore.Framework.Platform.Windowing;
+namespace Tomat.HoloCore.Framework.Platform.API.Windowing;
 
 public record struct WindowCreationInfo(
     int X,

@@ -1,6 +1,6 @@
 ﻿using System;
 using Tomat.HoloCore.Framework.DependencyInjection;
-using Tomat.HoloCore.Framework.Platform.Windowing;
+using Tomat.HoloCore.Framework.Platform.API.Windowing;
 using Veldrid;
 using IServiceProvider = Tomat.HoloCore.Framework.DependencyInjection.IServiceProvider;
 

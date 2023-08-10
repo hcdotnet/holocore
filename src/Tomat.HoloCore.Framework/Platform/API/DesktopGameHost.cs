@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Tomat.HoloCore.Framework.DependencyInjection;
-using Tomat.HoloCore.Framework.Platform.Graphics;
-using Tomat.HoloCore.Framework.Platform.Windowing;
-using Tomat.HoloCore.Framework.Platforms.Linux;
-using Tomat.HoloCore.Framework.Platforms.MacOS;
-using Tomat.HoloCore.Framework.Platforms.SDL2.Graphics;
-using Tomat.HoloCore.Framework.Platforms.SDL2.Windowing;
-using Tomat.HoloCore.Framework.Platforms.Windows;
+using Tomat.HoloCore.Framework.Platform.API.Graphics;
+using Tomat.HoloCore.Framework.Platform.API.Windowing;
+using Tomat.HoloCore.Framework.Platform.Linux;
+using Tomat.HoloCore.Framework.Platform.MacOS;
+using Tomat.HoloCore.Framework.Platform.SDL2.Graphics;
+using Tomat.HoloCore.Framework.Platform.SDL2.Windowing;
+using Tomat.HoloCore.Framework.Platform.Windows;
 
-namespace Tomat.HoloCore.Framework.Platform;
+namespace Tomat.HoloCore.Framework.Platform.API;
 
 public abstract class DesktopGameHost : IGameHost {
     public virtual void InstallGame(Game game) {

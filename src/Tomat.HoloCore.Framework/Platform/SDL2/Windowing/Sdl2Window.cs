@@ -1,7 +1,7 @@
-﻿using Tomat.HoloCore.Framework.Platform.Windowing;
+﻿using Tomat.HoloCore.Framework.Platform.API.Windowing;
 using Veldrid;
 
-namespace Tomat.HoloCore.Framework.Platforms.SDL2.Windowing;
+namespace Tomat.HoloCore.Framework.Platform.SDL2.Windowing;
 
 public class Sdl2Window : IWindow {
     public int X {
